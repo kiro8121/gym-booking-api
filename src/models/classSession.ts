@@ -25,6 +25,10 @@ export const class_session_schema= new Schema({
     booked_seats:{
         type:Number,
         default:0,
+    },
+    is_deleted: {
+        type: Boolean,
+        default: false,
     }
 },
 // Automatically adds createdAt and updatedAt fields
