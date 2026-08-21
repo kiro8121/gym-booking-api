@@ -6,7 +6,7 @@ export const validate_create_session=(req:Request,res:Response,next:NextFunction
     const {title , time_slot,capacity}=req.body;
 
     // Required fields validation
-    if(!title||!time_slot||!capacity){
+    if(!title||!time_slot||!capacity||typeof title !== 'string' || title.trim() === ''){
         return res.status(400).json({
             message:"Missing required fields",
         });

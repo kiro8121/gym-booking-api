@@ -7,12 +7,12 @@ export const create_session=async(req:Request,res:Response)=>{
     try{
         const {title,time_slot,capacity}=req.body;
         // auth middleware
-        const trainer_id = (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
 
         // create new session
         const new_session=await class_session.create({
             title,
-            trainer:trainer_id,
+            trainer:user_id,
             time_slot,
             capacity,
         });
@@ -149,7 +149,8 @@ export const delete_session=async(req:Request ,res:Response)=>{
     try{
 
         const session_id=req.params.id;
-        const user_id = (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        // auth
+        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
 
         // check if user sends the id
         if(!session_id){
@@ -209,7 +210,7 @@ export const update_session=async(req:Request,res:Response)=>{
         const session_id=req.params.id;
         const updates=req.body;
         // auth
-        const user_id = (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
 
         // check if user sends the id
         if(!session_id){
