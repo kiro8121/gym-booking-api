@@ -2,17 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad2a1caf-6c30-4fb1-9825-37f03c1ea840" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/middlewares/auth_auth_middleware.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/model_user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/auth_controlers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/middlewares/errorMiddleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/middlewares/loggerMiddleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/auth_routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/acorn" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/acorn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/bcrypt" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/bcrypt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/esbuild" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/js-yaml" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/js-yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/mkdirp" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/mkdirp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build-optional" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build-optional" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build-test" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/node-gyp-build-test" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/node-which" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/node-which" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/resolve" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/resolve" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/rimraf" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/rimraf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/semver" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/semver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/swagger-jsdoc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/swagger-jsdoc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/tree-kill" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/tree-kill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node-cwd" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node-cwd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node-dev" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node-dev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node-esm" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node-esm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node-script" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node-script" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-node-transpile-only" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-node-transpile-only" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/ts-script" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/ts-script" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/tsc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/tsc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/tsnd" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/tsnd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/tsserver" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/tsserver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/tsx" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/swagger-jsdoc/node_modules/.bin/glob" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/swagger-jsdoc/node_modules/.bin/glob" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/swagger-jsdoc/node_modules/.bin/glob.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/swagger-jsdoc/node_modules/.bin/glob.ps1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,6 +71,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Node.js.index.ts.executor": "Run",
+    "Node.js.server.ts.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
@@ -43,6 +85,16 @@
     "ts.external.directory.path": "/Users/kiroloskhaled/gym-booking-api/node_modules/typescript/lib"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="server.ts" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/server.ts" working-dir="$PROJECT_DIR$/src">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.server.ts" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
