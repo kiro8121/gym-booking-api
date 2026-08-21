@@ -109,25 +109,43 @@ export const createBooking = async (req: Authent_Request, res: Response) => {
 export const cancelBooking = async (req: Authent_Request, res: Response) => {
   try {
     const { Id } = req.params;
+    const memberId = req.user?.userId;
 
-    const targetBooking = await booking.findById(Id);
-    if (!targetBooking) return res.status(404).json({ error: "Booking not found" });
+    const targetBooking = await booking.findOne({
+      _id: Id,
+      member: memberId
+    });
+
+    if (!targetBooking) {
+      return res.status(404).json({
+        error: "Booking not found"
+      });
+    }
 
     if (targetBooking.status === 'cancelled') {
-      return res.status(400).json({ error: "Booking is already cancelled" });
+      return res.status(400).json({
+        error: "Booking is already cancelled"
+      });
     }
 
     targetBooking.status = 'cancelled';
     await targetBooking.save();
 
     await class_session.findByIdAndUpdate(targetBooking.session, {
-      $inc: { booked_seats: -1 } 
+      $inc: { booked_seats: -1 }
     });
 
-    return res.status(200).json({ message: "Booking cancelled successfully", targetBooking });
+    return res.status(200).json({
+      message: "Booking cancelled successfully",
+      targetBooking
+    });
 
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
-    return res.status(400).json({ error: errorMessage });
+    const errorMessage =
+      e instanceof Error ? e.message : "An unknown error occurred";
+
+    return res.status(400).json({
+      error: errorMessage
+    });
   }
 };
