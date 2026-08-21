@@ -8,9 +8,18 @@ export const swaggerOptions : swaggerJSDoc.Options = {
       version: "1.0.0",
       description: "API for managing Gym's classes and bookings.",
     },
+    components: {
+       securitySchemes: {
+           bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "JWT",
+    },
+  },
+},
   },
 
-  apis: ["./routes/*.ts"],
+  apis: ["./src/routes/*.ts"],
 };
 
 export const specs=swaggerJSDoc(swaggerOptions);
