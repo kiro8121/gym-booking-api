@@ -1,109 +1,80 @@
-import { Request, Response } from 'express';
-
+import { Response } from 'express';
 import booking from '../models/model.Booking';
+import { class_session } from '../models/classSession';
+import { Authent_Request } from '../middlewares/auth_auth_middleware'; // استيراد نوع الطلب المُعدل
 
-import {class_session} from '../models/classSession';
-
-
-
-export const getAllClasses = async (req: Request, res: Response) => {
-
+export const getAllClasses = async (req: Authent_Request, res: Response) => {
   try {
-const { title, trainer, date, availableOnly } = req.query;
+    const { title, trainer, date, availableOnly } = req.query;
 
-        // Object use for search
-        let query_object: any = { is_deleted: false };
+    let query_object: any = { is_deleted: false };
 
-        // Search by title
-        if (title) {
-            query_object.title = { $regex: title, $options: 'i' }; // Flexible text Search (Case Insensitive) 
-        }
+    if (title) {
+        query_object.title = { $regex: title, $options: 'i' }; 
+    }
 
-        // Filter by trainer
-        if (trainer) {
-            query_object.trainer = trainer; // Trainer Object Id
-        }
+    if (trainer) {
+        query_object.trainer = trainer; 
+    }
 
-        // Filter by day / time slot
-        if (date) {
-            const start_date = new Date(date as string);
-            const end_date = new Date(start_date);
-            end_date.setDate(end_date.getDate() + 1); // add 1 to start date to get end date
+    if (date) {
+        const start_date = new Date(date as string);
+        const end_date = new Date(start_date);
+        end_date.setDate(end_date.getDate() + 1); 
 
-            // Time range
-            query_object.time_slot = {
-                $gte: start_date, // greater than or equal
-                $lt: end_date // less than
-            };
-        }
+        query_object.time_slot = {
+            $gte: start_date, 
+            $lt: end_date 
+        };
+    }
 
-        // get sessions from database
-        let sessions = await class_session
-            .find(query_object)
-            .populate('trainer', 'full_Name email');
+    let sessions = await class_session
+        .find(query_object)
+        .populate('trainer', 'full_Name email');
 
+    if (availableOnly === 'true') {
+        sessions = sessions.filter(session => session.booked_seats < session.capacity);
+    }
 
-        // Availability 
-        if (availableOnly === 'true') {
-            sessions = sessions.filter(session => session.booked_seats < session.capacity);
-        }
-
-        // if no sessions found 
-        if (sessions.length === 0) {
-            return res.status(200).json({
-                message: "No sessions found matching your search",
-                count: 0,
-                sessions: []
-            });
-        }
-
-        // return sessions 
+    if (sessions.length === 0) {
         return res.status(200).json({
-            count: sessions.length,
-            sessions
-        });
-
-    }
-    // if any error exist
-    catch (error) {
-        return res.status(500).json({
-            error: "Server error while fetching sessions",
+            message: "No sessions found matching your search",
+            count: 0,
+            sessions: []
         });
     }
-}
 
+    return res.status(200).json({
+        count: sessions.length,
+        sessions
+    });
 
+  } catch (error) {
+      return res.status(500).json({
+          error: "Server error while fetching sessions",
+      });
+  }
+};
 
-
-export const getMyBookings = async (req: Request, res: Response) => {
-
+export const getMyBookings = async (req: Authent_Request, res: Response) => {
   try {
-
-    const { memberId } = req.query;
-
-   
+    // بناخد الـ ID من الـ Token مباشرة للأمان التام
+    const memberId = req.user?.userId;
 
     const bookings = await booking.find({ member: memberId }).populate('session');
-
     return res.status(200).json({ bookings });
 
   } catch (e) {
-
     const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
-
-    console.log("Validation error:", errorMessage);
-
     return res.status(400).json({ error: errorMessage });
-
   }
-
 };
 
-
-
-export const createBooking = async (req: Request, res: Response) => {
+export const createBooking = async (req: Authent_Request, res: Response) => {
   try {
-    const { classId, memberId } = req.body;
+    const { classId } = req.body;
+    // بناخد الـ ID من الـ Token مباشرة بدل ما اليوزر يبعته في الـ body
+    const memberId = req.user?.userId;
 
     const session = await class_session.findById(classId);
     if (!session) return res.status(404).json({ error: "Session Not Found" });
@@ -131,13 +102,11 @@ export const createBooking = async (req: Request, res: Response) => {
 
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
-    console.log("Validation error:", errorMessage);
     return res.status(400).json({ error: errorMessage });
   }
 };
 
-
-export const cancelBooking = async (req: Request, res: Response) => {
+export const cancelBooking = async (req: Authent_Request, res: Response) => {
   try {
     const { Id } = req.params;
 
@@ -159,7 +128,6 @@ export const cancelBooking = async (req: Request, res: Response) => {
 
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
-    console.log("Validation error:", errorMessage);
     return res.status(400).json({ error: errorMessage });
   }
 };
