@@ -1,22 +1,37 @@
 import {Schema , model } from "mongoose";
 //bia5d schema mn el mongoose
+
 const user_Schema = new Schema({
-    full_Name: {Type :String,required:true},
+    full_Name: {
+        type :String,
+        required:true
+    },
 
-    email: {Type :String,required:true , unique:true},//yrfd 2y 7sab gded bemail mogod
-
-    hass_password: {Type :String,required:true},
+    //yrfd 2y 7sab gded bemail mogod
+    email: {
+        type :String,
+        required:true ,
+         unique:true
+    },
+        
     //  hashed password 7maia w kda shofony b7meko mn el hackers
-
+    hass_password: {
+        type :String,
+        required:true
+    },
+    
     role: {
         type: String,
         enum: ['Member', 'Trainer'],
         default: 'Member'
     },
 
-    createdAt: { type: Date, default: Date.now }
     // tare5 ansha2 el 7sab
-
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
+    }
+    
 });
 
 export default model('User', user_Schema);
