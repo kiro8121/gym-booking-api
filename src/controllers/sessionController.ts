@@ -7,7 +7,7 @@ export const create_session=async(req:Request,res:Response)=>{
     try{
         const {title,time_slot,capacity}=req.body;
         // auth middleware
-        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        const user_id = (req as any).user?.userId || (req as any).user?.id ;
 
         // create new session
         const new_session=await class_session.create({
@@ -118,7 +118,7 @@ export const get_session_by_id=async(req:Request,res:Response)=>{
      const session = await class_session.findOne({
             _id: session_id,
             is_deleted: false
-        }).populate('trainer', 'full_Name email'); // ممكن اغيرها لما كيرو يعدل
+        }).populate('trainer', 'full_Name email'); 
 
 
      //check if session exist
@@ -150,7 +150,7 @@ export const delete_session=async(req:Request ,res:Response)=>{
 
         const session_id=req.params.id;
         // auth
-        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        const user_id = (req as any).user?.userId || (req as any).user?.id ;
 
         // check if user sends the id
         if(!session_id){
@@ -210,7 +210,7 @@ export const update_session=async(req:Request,res:Response)=>{
         const session_id=req.params.id;
         const updates=req.body;
         // auth
-        const user_id = (req as any).user?.userId || (req as any).user?.id || "65f1a2b3c4d5e67890123456";
+        const user_id = (req as any).user?.userId || (req as any).user?.id ;
 
         // check if user sends the id
         if(!session_id){
