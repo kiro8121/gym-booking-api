@@ -1,12 +1,15 @@
+import dotenv from "dotenv";
+dotenv.config();
+import dns from 'node:dns';
+dns.setDefaultResultOrder('ipv4first');
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db";
 import { specs } from "./config/swagger";
 import sessionRoutes from "./routes/sessionRoutes";
 
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
