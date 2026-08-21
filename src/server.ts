@@ -9,6 +9,11 @@ import { connectDB } from "./config/db";
 import { specs } from "./config/swagger";
 import sessionRoutes from "./routes/sessionRoutes";
 import authRoutes from "./routes/auth_routes";
+import routerBooking from "./routes/routerBooking";
+import validateBookingData from "./middlewares/validateBookingData";
+
+
+
 // authRoutes feha routes beta3t authentication
 // register / login / me
 
@@ -44,7 +49,7 @@ app.use("/api/auth", auth_routes);
 // GET  /api/auth/me
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/api/sessions", sessionRoutes);
-
+app.use("/api", routerBooking);
 app.get("/", (req, res) => {
     res.send("Gym Booking API is running...");
 });

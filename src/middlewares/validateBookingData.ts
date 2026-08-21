@@ -1,0 +1,38 @@
+import { Request, Response, NextFunction } from 'express';
+
+
+
+export const validateBookingData = (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+
+    const { classId, memberId } = req.body;
+
+
+
+    if (!classId || !memberId) {
+
+      return res.status(400).json({ error: "you must write classe id and member id" });
+
+    }
+
+
+
+    next();
+
+
+
+  } catch (e) {
+
+    const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
+
+    return res.status(400).json({ error: errorMessage });
+
+  }
+
+};
+
+
+
+export default validateBookingData; 
+
