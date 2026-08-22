@@ -1,61 +1,17 @@
 import { Response } from 'express';
 import booking from '../models/model.Booking';
 import { class_session } from '../models/classSession';
-import { Authent_Request } from '../middlewares/auth_auth_middleware'; // استيراد نوع الطلب المُعدل
+import { Authent_Request } from '../middlewares/auth_auth_middleware'; 
 
-export const getAllClasses = async (req: Authent_Request, res: Response) => {
+export const getAllClasses = async (req: Request, res: Response) => {
   try {
-    const { title, trainer, date, availableOnly } = req.query;
-
-    let query_object: any = { is_deleted: false };
-
-    if (title) {
-        query_object.title = { $regex: title, $options: 'i' }; 
-    }
-
-    if (trainer) {
-        query_object.trainer = trainer; 
-    }
-
-    if (date) {
-        const start_date = new Date(date as string);
-        const end_date = new Date(start_date);
-        end_date.setDate(end_date.getDate() + 1); 
-
-        query_object.time_slot = {
-            $gte: start_date, 
-            $lt: end_date 
-        };
-    }
-
-    let sessions = await class_session
-        .find(query_object)
-        .populate('trainer', 'full_Name email');
-
-    if (availableOnly === 'true') {
-        sessions = sessions.filter(session => session.booked_seats < session.capacity);
-    }
-
-    if (sessions.length === 0) {
-        return res.status(200).json({
-            message: "No sessions found matching your search",
-            count: 0,
-            sessions: []
-        });
-    }
-
-    return res.status(200).json({
-        count: sessions.length,
-        sessions
-    });
-
-  } catch (error) {
-      return res.status(500).json({
-          error: "Server error while fetching sessions",
-      });
+    const classes = await class_session.find();
+    return res.status(200).json({ classes });
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
+    return res.status(400).json({ error: errorMessage });
   }
 };
-
 export const getMyBookings = async (req: Authent_Request, res: Response) => {
   try {
     const memberId = req.user?.userId;
