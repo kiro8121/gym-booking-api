@@ -5,12 +5,15 @@ import { Authent_Request } from '../middlewares/auth_auth_middleware';
 
 export const getAllClasses = async (req: Request, res: Response) => {
   try {
-    const classes = await class_session.find();
+  
+    const classes = await class_session.find({ is_deleted: false });
+    
     return res.status(200).json({ classes });
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
     return res.status(400).json({ error: errorMessage });
   }
+};
 };
 export const getMyBookings = async (req: Authent_Request, res: Response) => {
   try {
