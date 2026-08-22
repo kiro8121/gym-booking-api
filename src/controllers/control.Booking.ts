@@ -14,7 +14,7 @@ export const getAllClasses = async (req: Request, res: Response) => {
     return res.status(400).json({ error: errorMessage });
   }
 };
-};
+
 export const getMyBookings = async (req: Authent_Request, res: Response) => {
   try {
     const memberId = req.user?.userId;
