@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import {Request , Response } from 'express';
 import booking from '../models/model.Booking';
 import { class_session } from '../models/classSession';
 import { Authent_Request } from '../middlewares/auth_auth_middleware'; 
