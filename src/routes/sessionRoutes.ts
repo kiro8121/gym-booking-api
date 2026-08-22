@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { 
     create_session, 
+    get_all_sessions,
     get_session_by_id, 
     delete_session, 
     update_session 
@@ -9,8 +10,8 @@ import {
 
 import { 
     validate_create_session, 
-    validate_update_session 
-} from "../middlewares/sessionValidation  ";
+    validate_update_session
+} from "../middlewares/sessionValidation";
 
 import { authenticate, authorize } from "../middlewares/auth_auth_middleware";
 
@@ -54,7 +55,8 @@ const router = Router();
  *       500:
  *         description: Server error
  */
-
+//1. Get all sessions
+router.get("/", get_all_sessions);
 
 /**
  * @swagger
