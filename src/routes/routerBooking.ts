@@ -8,45 +8,47 @@ import { authenticate, authorize } from '../middlewares/auth_auth_middleware';
 
 const router = Router();
 
-
-/**
- * @swagger
- * /api/search:
- *   get:
- *     summary: Search and filter available class sessions
- *     tags: [Bookings]
- *     parameters:
- *       - in: query
- *         name: title
- *         schema:
- *           type: string
- *         description: Search sessions by class title
- *
- *       - in: query
- *         name: trainer
- *         schema:
- *           type: string
- *         description: Filter sessions by trainer ID
- *
- *       - in: query
- *         name: date
- *         schema:
- *           type: string
- *           format: date
- *         description: Filter sessions by date
- *
- *       - in: query
- *         name: availableOnly
- *         schema:
- *           type: boolean
- *         description: Return only sessions with available spots
- *
- *     responses:
- *       200:
- *         description: Sessions retrieved successfully
- *       500:
- *         description: Server error while fetching sessions
- */
+ /**
+  * @swagger
+  * /api/search:
+  *   get:
+  *     summary: Get all class sessions
+  *     tags: [Bookings]
+  *     responses:
+  *       200:
+  *         description: List of all class sessions
+  *         content:
+  *           application/json:
+  *             schema:
+  *               type: object
+  *               properties:
+  *                 classes:
+  *                   type: array
+  *                   items:
+  *                     type: object
+  *                     properties:
+  *                       _id:
+  *                         type: string
+  *                         example: 68a123456789abcdef123456
+  *                       title:
+  *                         type: string
+  *                         example: Yoga
+  *                       trainer:
+  *                         type: string
+  *                         example: 68a123456789abcdef123456
+  *                       time_slot:
+  *                         type: string
+  *                         format: date-time
+  *                         example: 2026-09-01T18:00:00Z
+  *                       capacity:
+  *                         type: integer
+  *                         example: 20
+  *                       booked_seats:
+  *                         type: integer
+  *                         example: 12
+  *       400:
+  *         description: Error while fetching class sessions
+  */
 router.get('/search',getAllClasses);
 
 /**
