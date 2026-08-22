@@ -40,6 +40,7 @@ export const register = async (
         // role = el role beta3o
 
 
+
         // 1. F7s el Inputs
         // bnshof en el fields el asaseya mawgooda
 
@@ -51,6 +52,13 @@ export const register = async (
         // law ay field mn dol msh mawgood
         // bnrg3 400 w n2af el function
 
+        // regex 3shan at2aked en el email maktob bsoora sa7
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// lw el email msh sa7 bnrg3 error
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
 
         // 2. El tashyeek 3ala wogood el email
         // bnshof el email da already mawgod fe database wla la

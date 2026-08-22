@@ -5,13 +5,15 @@ const user_Schema = new Schema({
     full_Name: {
         type :String,
         required:true
+
     },
 
     //yrfd 2y 7sab gded bemail mogod
     email: {
         type :String,
         required:true ,
-         unique:true
+         unique:true,
+        match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address']
     },
         
     //  hashed password 7maia w kda shofony b7meko mn el hackers
