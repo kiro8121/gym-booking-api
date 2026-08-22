@@ -6,11 +6,11 @@ export const validateBookingData = (req: Request, res: Response, next: NextFunct
 
   try {
 
-    const { classId, memberId } = req.body;
+    const { classId } = req.body;
 
 
 
-    if (!classId || !memberId) {
+    if (!classId ) {
 
       return res.status(400).json({ error: "you must write classe id and member id" });
 

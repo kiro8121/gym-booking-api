@@ -58,7 +58,6 @@ export const getAllClasses = async (req: Authent_Request, res: Response) => {
 
 export const getMyBookings = async (req: Authent_Request, res: Response) => {
   try {
-    // بناخد الـ ID من الـ Token مباشرة للأمان التام
     const memberId = req.user?.userId;
 
     const bookings = await booking.find({ member: memberId }).populate('session');
@@ -70,14 +69,22 @@ export const getMyBookings = async (req: Authent_Request, res: Response) => {
   }
 };
 
+
+
+
+
+
 export const createBooking = async (req: Authent_Request, res: Response) => {
   try {
     const { classId } = req.body;
-    // بناخد الـ ID من الـ Token مباشرة بدل ما اليوزر يبعته في الـ body
     const memberId = req.user?.userId;
 
-    const session = await class_session.findById(classId);
-    if (!session) return res.status(404).json({ error: "Session Not Found" });
+    const session = await class_session.findOne({ _id: classId, is_deleted: false });
+    if (!session) return res.status(404).json({ error: "Session Not Found or Deleted" });
+
+    if (new Date(session.time_slot) <= new Date()) {
+      return res.status(400).json({ error: "Cannot book a past session" });
+    }
 
     const existingBooking = await booking.findOne({ 
       session: classId, 
@@ -95,8 +102,9 @@ export const createBooking = async (req: Authent_Request, res: Response) => {
 
     const newBooking = await booking.create({ session: classId, member: memberId });
 
-    session.booked_seats = currentBookings + 1;
-    await session.save();
+    await class_session.findByIdAndUpdate(classId, {
+      $inc: { booked_seats: 1 }
+    });
 
     return res.status(201).json({ newBooking });
 
@@ -105,6 +113,9 @@ export const createBooking = async (req: Authent_Request, res: Response) => {
     return res.status(400).json({ error: errorMessage });
   }
 };
+
+
+
 
 export const cancelBooking = async (req: Authent_Request, res: Response) => {
   try {

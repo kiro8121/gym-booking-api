@@ -10,7 +10,6 @@ import { specs } from "./config/swagger";
 import sessionRoutes from "./routes/sessionRoutes";
 import authRoutes from "./routes/auth_routes";
 import routerBooking from "./routes/routerBooking";
-import validateBookingData from "./middlewares/validateBookingData";
 import dashboardRoutes from "./routes/dashboard.router";
 
 
