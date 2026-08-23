@@ -1,14 +1,13 @@
 import {Schema , model } from "mongoose";
-//bia5d schema mn el mongoose
 
-const user_Schema = new Schema({
-    full_Name: {
+// user schema
+const userSchema = new Schema({
+    fullName: {
         type :String,
         required:true
 
     },
 
-    //yrfd 2y 7sab gded bemail mogod
     email: {
         type :String,
         required:true ,
@@ -16,8 +15,7 @@ const user_Schema = new Schema({
         match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address']
     },
         
-    //  hashed password 7maia w kda shofony b7meko mn el hackers
-    hass_password: {
+    password: {
         type :String,
         required:true
     },
@@ -28,7 +26,6 @@ const user_Schema = new Schema({
         default: 'Member'
     },
 
-    // tare5 ansha2 el 7sab
     createdAt: { 
         type: Date, 
         default: Date.now 
@@ -36,6 +33,4 @@ const user_Schema = new Schema({
     
 });
 
-export default model('User', user_Schema);
-
-
+export default model('User', userSchema);

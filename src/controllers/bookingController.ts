@@ -1,12 +1,11 @@
-import {Request , Response } from 'express';
-import booking from '../models/model.Booking';
-import { class_session } from '../models/classSession';
-import { Authent_Request } from '../middlewares/auth_auth_middleware'; 
+import { Request, Response } from 'express';
+import booking from '../models/bookingModel';
+import { ClassSession} from '../models/classSessionModel';
+import { AuthentRequest } from '../middlewares/authMiddleware'; 
 
 export const getAllClasses = async (req: Request, res: Response) => {
   try {
-  
-    const classes = await class_session.find({ is_deleted: false });
+    const classes = await ClassSession.find({ is_deleted: false });
     
     return res.status(200).json({ classes });
   } catch (e) {
@@ -15,7 +14,7 @@ export const getAllClasses = async (req: Request, res: Response) => {
   }
 };
 
-export const getMyBookings = async (req: Authent_Request, res: Response) => {
+export const getMyBookings = async (req: AuthentRequest, res: Response) => {
   try {
     const memberId = req.user?.userId;
 
@@ -33,15 +32,15 @@ export const getMyBookings = async (req: Authent_Request, res: Response) => {
 
 
 
-export const createBooking = async (req: Authent_Request, res: Response) => {
+export const createBooking = async (req: AuthentRequest, res: Response) => {
   try {
     const { classId } = req.body;
     const memberId = req.user?.userId;
 
-    const session = await class_session.findOne({ _id: classId, is_deleted: false });
+    const session = await ClassSession.findOne({ _id: classId, is_deleted: false });
     if (!session) return res.status(404).json({ error: "Session Not Found or Deleted" });
 
-    if (new Date(session.time_slot) <= new Date()) {
+    if (new Date(session.timeSlot) <= new Date()) {
       return res.status(400).json({ error: "Cannot book a past session" });
     }
 
@@ -61,7 +60,7 @@ export const createBooking = async (req: Authent_Request, res: Response) => {
 
     const newBooking = await booking.create({ session: classId, member: memberId });
 
-    await class_session.findByIdAndUpdate(classId, {
+    await ClassSession.findByIdAndUpdate(classId, {
       $inc: { booked_seats: 1 }
     });
 
@@ -76,7 +75,7 @@ export const createBooking = async (req: Authent_Request, res: Response) => {
 
 
 
-export const cancelBooking = async (req: Authent_Request, res: Response) => {
+export const cancelBooking = async (req: AuthentRequest, res: Response) => {
   try {
     const { Id } = req.params;
     const memberId = req.user?.userId;
@@ -101,7 +100,7 @@ export const cancelBooking = async (req: Authent_Request, res: Response) => {
     targetBooking.status = 'cancelled';
     await targetBooking.save();
 
-    await class_session.findByIdAndUpdate(targetBooking.session, {
+    await ClassSession.findByIdAndUpdate(targetBooking.session, {
       $inc: { booked_seats: -1 }
     });
 

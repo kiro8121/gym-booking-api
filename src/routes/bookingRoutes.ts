@@ -1,54 +1,54 @@
 import {Router} from 'express';
 
-import {createBooking, cancelBooking, getMyBookings, getAllClasses} from '../controllers/control.Booking';
+import {createBooking, cancelBooking, getMyBookings, getAllClasses} from '../controllers/bookingController';
 
-import {validateBookingData} from "../middlewares/validateBookingData"
-import { authenticate, authorize } from '../middlewares/auth_auth_middleware';
+import {validateBookingData} from "../middlewares/bookingValidation"
+import { authenticate, authorize } from '../middlewares/authMiddleware';
 
 
 const router = Router();
 
  /**
-  * @swagger
-  * /api/search:
-  *   get:
-  *     summary: Get all class sessions
-  *     tags: [Bookings]
-  *     responses:
-  *       200:
-  *         description: List of all class sessions
-  *         content:
-  *           application/json:
-  *             schema:
-  *               type: object
-  *               properties:
-  *                 classes:
-  *                   type: array
-  *                   items:
-  *                     type: object
-  *                     properties:
-  *                       _id:
-  *                         type: string
-  *                         example: 68a123456789abcdef123456
-  *                       title:
-  *                         type: string
-  *                         example: Yoga
-  *                       trainer:
-  *                         type: string
-  *                         example: 68a123456789abcdef123456
-  *                       time_slot:
-  *                         type: string
-  *                         format: date-time
-  *                         example: 2026-09-01T18:00:00Z
-  *                       capacity:
-  *                         type: integer
-  *                         example: 20
-  *                       booked_seats:
-  *                         type: integer
-  *                         example: 12
-  *       400:
-  *         description: Error while fetching class sessions
-  */
+ * @swagger
+ * /api/search:
+ *   get:
+ *     summary: Get all class sessions
+ *     tags: [Bookings]
+ *     responses:
+ *       200:
+ *         description: List of all class sessions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 classes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: 68a123456789abcdef123456
+ *                       title:
+ *                         type: string
+ *                         example: Yoga
+ *                       trainer:
+ *                         type: string
+ *                         example: 68a123456789abcdef123456
+ *                       time_slot:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2026-09-01T18:00:00Z
+ *                       capacity:
+ *                         type: integer
+ *                         example: 20
+ *                       booked_seats:
+ *                         type: integer
+ *                         example: 12
+ *       400:
+ *         description: Error while fetching class sessions
+ */
 router.get('/search',getAllClasses);
 
 /**
@@ -135,11 +135,4 @@ router.post('/booking',authenticate,authorize("Member","member"),validateBooking
  */
 router.patch('/booking/:Id',authenticate,authorize("Member","member"),cancelBooking);
 
-
-
-
-
-
-
-export default router; 
-
+export default router;

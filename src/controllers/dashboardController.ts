@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../models/model_user";
-import { class_session } from "../models/classSession";
-import booking from "../models/model.Booking";
+import User from "../models/userModel";
+import { ClassSession } from "../models/classSessionModel";
+import booking from "../models/bookingModel";
 
 export const getDashboardStats = async (req: Request, res: Response) => {
     try {
@@ -13,7 +13,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             role: "Trainer"
         });
 
-        const totalSessions = await class_session.countDocuments({
+        const totalSessions = await ClassSession.countDocuments({
             is_deleted: false
         });
 

@@ -1,19 +1,19 @@
 import { Router } from "express";
 
 import { 
-    create_session, 
-    get_all_sessions,
-    get_session_by_id, 
-    delete_session, 
-    update_session 
+    createSession, 
+    getAllSessions,
+    getSessionById, 
+    deleteSession, 
+    updateSession 
 } from "../controllers/sessionController";
 
 import { 
-    validate_create_session, 
-    validate_update_session
+    validateCreateSession, 
+    validateUpdateSession
 } from "../middlewares/sessionValidation";
 
-import { authenticate, authorize } from "../middlewares/auth_auth_middleware";
+import { authenticate, authorize } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -56,7 +56,7 @@ const router = Router();
  *         description: Server error
  */
 //1. Get all sessions
-router.get("/", get_all_sessions);
+router.get("/", getAllSessions);
 
 /**
  * @swagger
@@ -80,7 +80,7 @@ router.get("/", get_all_sessions);
  *         description: Server error
  */
 // 2. Get session by ID 
-router.get("/:id", get_session_by_id);
+router.get("/:id", getSessionById);
 
 /**
  * @swagger
@@ -98,13 +98,13 @@ router.get("/:id", get_session_by_id);
  *             type: object
  *             required:
  *               - title
- *               - time_slot
+ *               - timeSlot
  *               - capacity
  *             properties:
  *               title:
  *                 type: string
  *                 example: Yoga
- *               time_slot:
+ *               timeSlot:
  *                 type: string
  *                 format: date-time
  *                 example: 2026-09-01T18:00:00Z
@@ -129,8 +129,8 @@ router.post(
     "/", 
     authenticate, 
     authorize("Trainer", "trainer"), 
-    validate_create_session, 
-    create_session
+    validateCreateSession, 
+    createSession
 );
 
 /**
@@ -158,7 +158,7 @@ router.post(
  *               title:
  *                 type: string
  *                 example: Advanced Yoga
- *               time_slot:
+ *               timeSlot:
  *                 type: string
  *                 format: date-time
  *                 example: 2026-09-01T19:00:00Z
@@ -185,8 +185,8 @@ router.put(
     "/:id", 
     authenticate, 
     authorize("Trainer", "trainer"), 
-    validate_update_session, 
-    update_session
+    validateUpdateSession, 
+    updateSession
 );
 
 /**
@@ -223,7 +223,7 @@ router.delete(
     "/:id", 
     authenticate, 
     authorize("Trainer", "trainer"), 
-    delete_session
+    deleteSession
 );
 
 export default router;

@@ -1,26 +1,26 @@
 import {Request,Response} from "express";
-import {class_session} from "../models/classSession";
+import {ClassSession} from "../models/classSessionModel";
 
 
 // create new session
-export const create_session=async(req:Request,res:Response)=>{
+export const createSession=async(req:Request,res:Response)=>{
     try{
-        const {title,time_slot,capacity}=req.body;
+        const {title,timeSlot,capacity}=req.body;
         // auth middleware
-        const user_id = (req as any).user?.userId || (req as any).user?.id ;
+        const userId = (req as any).user?.userId || (req as any).user?.id ;
 
         // create new session
-        const new_session=await class_session.create({
+        const newSession=await ClassSession.create({
             title,
-            trainer:user_id,
-            time_slot,
+            trainer:userId,
+            timeSlot,
             capacity,
         });
 
         // if no errors 
         return res.status(201).json({
             message: "Session created successfully",
-            new_session
+            newSession
         });
     }
 
@@ -33,45 +33,45 @@ export const create_session=async(req:Request,res:Response)=>{
 }
 
 // get all sessions
-export const get_all_sessions = async (req: Request, res: Response) => {
+export const getAllSessions = async (req: Request, res: Response) => {
     try {
         const { title, trainer, date, availableOnly } = req.query;
 
         // Object use for search
-        let query_object: any = { is_deleted: false };
+        let queryObject: any = { isDeleted: false };
 
         // Search by title
         if (title) {
-            query_object.title = { $regex: title, $options: 'i' }; // Flexible text Search (Case Insensitive) 
+            queryObject.title = { $regex: title, $options: 'i' }; // Flexible text Search (Case Insensitive) 
         }
 
         // Filter by trainer
         if (trainer) {
-            query_object.trainer = trainer; // Trainer Object Id
+            queryObject.trainer = trainer; // Trainer Object Id
         }
 
         // Filter by day / time slot
         if (date) {
-            const start_date = new Date(date as string);
-            const end_date = new Date(start_date);
-            end_date.setDate(end_date.getDate() + 1); // add 1 to start date to get end date
+            const startDate = new Date(date as string);
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + 1); // add 1 to start date to get end date
 
             // Time range
-            query_object.time_slot = {
-                $gte: start_date, // greater than or equal
-                $lt: end_date // less than
+            queryObject.timeSlot = {
+                $gte: startDate, // greater than or equal
+                $lt: endDate // less than
             };
         }
 
         // get sessions from database
-        let sessions = await class_session
-            .find(query_object)
-            .populate('trainer', 'full_Name email');
+        let sessions = await ClassSession
+            .find(queryObject)
+            .populate('trainer', 'fullName email');
 
 
         // Availability 
         if (availableOnly === 'true') {
-            sessions = sessions.filter(session => session.booked_seats < session.capacity);
+            sessions = sessions.filter(session => session.bookedSeats < session.capacity);
         }
 
         // if no sessions found 
@@ -100,22 +100,22 @@ export const get_all_sessions = async (req: Request, res: Response) => {
 
 
 // get session by id
-export const get_session_by_id=async(req:Request,res:Response)=>{
+export const getSessionById=async(req:Request,res:Response)=>{
     try{
 
-        const session_id=req.params.id;
+        const sessionId=req.params.id;
         // check if user sends the id
-        if(!session_id){
+        if(!sessionId){
             return res.status(400).json({
                 message:"Id are required",
         })  ;     
      }
 
      // find session
-     const session = await class_session.findOne({
-            _id: session_id,
-            is_deleted: false
-        }).populate('trainer', 'full_Name email'); 
+     const session = await ClassSession.findOne({
+            _id: sessionId,
+            isDeleted: false
+        }).populate('trainer', 'fullName email'); 
 
 
      //check if session exist
@@ -142,24 +142,24 @@ export const get_session_by_id=async(req:Request,res:Response)=>{
 
 
 // Delete session (Soft delete)
-export const delete_session=async(req:Request ,res:Response)=>{
+export const deleteSession=async(req:Request ,res:Response)=>{
     try{
 
-        const session_id=req.params.id;
+        const sessionId=req.params.id;
         // auth
-        const user_id = (req as any).user?.userId || (req as any).user?.id ;
+        const userId = (req as any).user?.userId || (req as any).user?.id ;
 
         // check if user sends the id
-        if(!session_id){
+        if(!sessionId){
             return res.status(400).json({
                 message:"Id is required",
             });
         }
        
         // find session 
-        const session = await class_session.findOne({
-            _id: session_id, // condition
-            is_deleted: false
+        const session = await ClassSession.findOne({
+            _id: sessionId, // condition
+            isDeleted: false
         });
 
         // if session doesn't exist
@@ -170,21 +170,21 @@ export const delete_session=async(req:Request ,res:Response)=>{
         }
 
         // Business Rule
-        if (session.trainer.toString() !== user_id) {
+        if (session.trainer.toString() !== userId) {
             return res.status(403).json({ 
                 message: "Forbidden: You are not the owner of this session" 
             });
         }
 
         // Business Rule
-        if (session.booked_seats > 0) {
+        if (session.bookedSeats > 0) {
             return res.status(400).json({ 
                 message: "Cannot delete session with active bookings" 
             });
         }
 
         // if no errors
-        session.is_deleted = true;
+        session.isDeleted = true;
         await session.save();
 
         return res.status(200).json({
@@ -202,24 +202,24 @@ export const delete_session=async(req:Request ,res:Response)=>{
 
 
 // update session
-export const update_session=async(req:Request,res:Response)=>{
+export const updateSession=async(req:Request,res:Response)=>{
     try{
-        const session_id=req.params.id;
+        const sessionId=req.params.id;
         const updates=req.body;
         // auth
-        const user_id = (req as any).user?.userId || (req as any).user?.id ;
+        const userId = (req as any).user?.userId || (req as any).user?.id ;
 
         // check if user sends the id
-        if(!session_id){
+        if(!sessionId){
             return res.status(400).json({
                 message:"Id is required",
             });
         }
 
         // find session
-        const session=await class_session.findOne({
-            _id:session_id,
-            is_deleted:false
+        const session=await ClassSession.findOne({
+            _id:sessionId,
+            isDeleted:false
         });
 
         // if session doesn't exist
@@ -230,22 +230,22 @@ export const update_session=async(req:Request,res:Response)=>{
         }
 
         // Ownership check
-        if (session.trainer.toString() !== user_id) {
+        if (session.trainer.toString() !== userId) {
             return res.status(403).json({ 
                 message: "Forbidden: You are not the owner of this session" 
             });
         }
 
         // Check capacity limit
-        if (updates.capacity && updates.capacity < session.booked_seats) {
+        if (updates.capacity && updates.capacity < session.bookedSeats) {
             return res.status(400).json({
-                message: `Capacity cannot be less than currently booked seats (${session.booked_seats})`
+                message: `Capacity cannot be less than currently booked seats (${session.bookedSeats})`
             });
         }
 
         // update session
-        const updated_session=await class_session.findByIdAndUpdate(
-            session_id, // id
+        const updatedSession=await ClassSession.findByIdAndUpdate(
+            sessionId, // id
             updates, // update data
             {new:true} // return updated data
         )
@@ -254,7 +254,7 @@ export const update_session=async(req:Request,res:Response)=>{
         // if no errors
         return res.status(200).json({
             message:"Session updated successfully",
-            updated_session
+            updatedSession
         });
     }
 
@@ -265,5 +265,3 @@ export const update_session=async(req:Request,res:Response)=>{
         });
     }
 }
-
-

@@ -1,12 +1,12 @@
 import {Request ,Response, NextFunction} from "express";
 
-export const validate_create_session=(req:Request,res:Response,next:NextFunction)=>{
+export const validateCreateSession=(req:Request,res:Response,next:NextFunction)=>{
    try{
 
-    const {title , time_slot,capacity}=req.body;
+    const {title , timeSlot,capacity}=req.body;
 
     // Required fields validation
-    if(!title||!time_slot||!capacity||typeof title !== 'string' || title.trim() === ''){
+    if(!title||!timeSlot||!capacity||typeof title !== 'string' || title.trim() === ''){
         return res.status(400).json({
             message:"Missing required fields",
         });
@@ -20,10 +20,10 @@ export const validate_create_session=(req:Request,res:Response,next:NextFunction
     }
 
     // Time slot validation 
-    const input_date = new Date(time_slot);
-    const current_date = new Date();
+    const inputDate = new Date(timeSlot);
+    const currentDate = new Date();
 
-    if(isNaN(input_date.getTime())||input_date <= current_date){
+    if(isNaN(inputDate.getTime())||inputDate <= currentDate){
         return res.status(400).json({
             message:"Time slot must be a valid future date and time."
         });
@@ -44,13 +44,13 @@ export const validate_create_session=(req:Request,res:Response,next:NextFunction
 
 
 // update session validation
-export const validate_update_session=(req:Request,res:Response,next:NextFunction)=>{
+export const validateUpdateSession=(req:Request,res:Response,next:NextFunction)=>{
     try{
 
-        const {title,time_slot,capacity}=req.body;
+        const {title,timeSlot,capacity}=req.body;
 
         // Required fields validation
-        if(!title&&!time_slot&&capacity===undefined){
+        if(!title&&!timeSlot&&capacity===undefined){
             return res.status(400).json({
                 message:"At least one field is required to update",
             });
@@ -66,12 +66,12 @@ export const validate_update_session=(req:Request,res:Response,next:NextFunction
         }
 
         // time slot validation
-        if(time_slot!==undefined){
+        if(timeSlot!==undefined){
 
-            const input_date = new Date(time_slot);
-            const current_date = new Date();
+            const inputDate = new Date(timeSlot);
+            const currentDate = new Date();
 
-            if(isNaN(input_date.getTime())||input_date <= current_date){
+            if(isNaN(inputDate.getTime())||inputDate <= currentDate){
                 return res.status(400).json({
                     message:"Time slot must be a valid future date and time."
                 });

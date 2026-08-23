@@ -1,26 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 
-
-
 export const validateBookingData = (req: Request, res: Response, next: NextFunction) => {
 
   try {
 
     const { classId } = req.body;
 
-
-
-    if (!classId ) {
-
-      return res.status(400).json({ error: "you must write classe id and member id" });
-
+    if (!classId) {
+      return res.status(400).json({ error: "classId is required" });
     }
-
-
-
     next();
-
-
 
   } catch (e) {
 
@@ -29,10 +18,6 @@ export const validateBookingData = (req: Request, res: Response, next: NextFunct
     return res.status(400).json({ error: errorMessage });
 
   }
-
 };
 
-
-
-export default validateBookingData; 
-
+export default validateBookingData;

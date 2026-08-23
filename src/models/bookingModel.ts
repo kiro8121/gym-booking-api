@@ -1,46 +1,27 @@
-import mongoose, {Schema,model} from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
-
-
-
-
-const BookingSchema: Schema = new Schema({
+const bookingSchema: Schema = new Schema({
 
   session: {
-
     type: Schema.Types.ObjectId,
-
-    ref: 'class_session',
-
+    ref: 'ClassSession',
     required: true
-
   },
 
   member: {
-
     type: Schema.Types.ObjectId,
-
     ref: 'User',
-
     required: true
-
   },
 
   status: {
-
     type: String,
-
     enum: ['booked', 'cancelled'],
-
     default: 'booked'
-
   }
+},
+{ timestamps: true });
 
-}, { timestamps: true });
+const Booking = mongoose.model('Booking', bookingSchema);
 
-
-
-const booking = mongoose.model('booking',BookingSchema);
-
-export default booking; 
-
+export default Booking;
