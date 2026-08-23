@@ -19,7 +19,7 @@ const classSessionSchema = new Schema<IClassSession>(
     title: {
       type: String,
       required: true,
-      trim: true,
+      //trim: true,
     },
     trainer: {
       type: Schema.Types.ObjectId,
